@@ -1,0 +1,31 @@
+<div class="container">
+  <h1>{{title}}</h1>
+  
+  <div class="container">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" class="form-control" id="firstName" placeholder="Enter your first name"required autofocus [(ngModel)]="firstName" />
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required [(ngModel)]="lastName" />
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email" placeholder="Enter your email" required [(ngModel)]="email" />
+    </div>
+    <!-- Property Binding: [ ] -->
+    <button type="button" class="btn btn-primary" [disabled]="addUserBtn" (click)="onAddUser()">Add User</button>
+    <!-- Event Binding: ( ) -->
+    &nbsp;<button type="button" class="btn btn-secondary" (click)="onReset()">Clear</button>
+  </div>
+  <div class="container" id="usersDiv">
+      <hr />
+      <h3>User</h3>
+      <!--
+        String Interpolation: Whatever is evaluated in the TypeScript expression inside the String Interpolation braces {{ }} resolves to a String.
+        {{ TypeScript_Expression }}  => result is a String
+      -->
+      {{ newUser }}
+  </div>
+</div>
