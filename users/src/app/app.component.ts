@@ -13,19 +13,23 @@ export class AppComponent {
   lastName: string = 'Sloneker';
   email: string = 'michellesloneker@mail.com';
 
-  addUserBtn: boolean = true;
+  newUserAdded: boolean = false;
 
-  newUser: string = '';
+  users: Array<object> = [];
 
- onAddUser(): void {
-    this.newUser =  `${this.firstName} ${this.lastName}, email: ${this.email}`;
-    this.addUserBtn = true;
- }
+  onAddUser(): void {
+    //this.users.push(`${this.firstName} ${this.lastName}, email: ${this.email}`);
+    this.users.push({"firstName": this.firstName, "lastName": this.lastName, "email": this.email});
+    this.newUserAdded = true;
+  }
 
- onReset(): void {
-  this.firstName = '';
-  this.lastName = '';
-  this.email = '';
-  this.addUserBtn = false;
- }
+  onReset(): void {
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.newUserAdded = true;
+  }
+  getColor(): string {
+    return this.newUserAdded === true ? '#000080' : '#FF0000'; // navy : red
+  }
 }
