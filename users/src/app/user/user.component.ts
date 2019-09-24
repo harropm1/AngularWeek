@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { user } from './user.model';
+import { AuthService } from './../providers/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -7,19 +8,14 @@ import { user } from './user.model';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+  title: string = 'Add a User';
 
   // Array to hold user Objects
-  users: user[] = [
-    new user("Michelle", "Harrop", "michellesloneker@mail.com"),
-    new user("Megan", "Harrop", "megan@mail.com"),
-    new user("Bob", "Harrop", "bob@mail.com"),
-  ];
-  constructor() { }
+  users: user[] = [];
+  
+  constructor(private authService: AuthService) { }
 
-  ngOnInit() {
-  }
-
-  title: string = 'Add a User';
+  ngOnInit() {}
 
   //propName: type = defaultValue
   firstName: string = '';
@@ -29,8 +25,7 @@ export class UserComponent implements OnInit {
   newUserAdded: boolean = false;
 
   onAddUser(): void {
-    //this.users.push(`${this.firstName} ${this.lastName}, email: ${this.email}`);
-    this.users.push({"firstName": this.firstName, "lastName": this.lastName, "email": this.email});
+    this.users = this.authService.addUser(this.firstName, this.lastName, this.email);
     this.newUserAdded = true;
   }
 
