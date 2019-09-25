@@ -27,8 +27,9 @@
   <div class="container" id="UsersDiv">
     <hr />
     <!-- Built-in ngStyle attribute directive: uses Property Binding [ ] to bind to a property of the directive -->
-    <h3 [ngStyle]="{color: getColor()}">Users</h3>
-    <div *ngIf="newUserAdded; else noUsers">
+    <h3>Users</h3>
+    <div>
+    <!--Adam is a genius <div *ngIf="newUserAdded; else noUsers"> -->
       <!-- Built-in *ngFor directive -->
       <table class="table table-striped">
         <thead>

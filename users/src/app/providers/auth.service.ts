@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, Subject, of} from 'rxjs';
+import { map } from 'rxjs/operators';
 import { user } from './../models/user.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
+  private usersEndpoint: string = 'http://localhost:3000/login/';
+	private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json'
+    })
+  };
 
-  constructor() { }
+  constructor(private http: HttpClient){};
+
   // Hard-coded for demo purposes
   USER_NAME: string = 'Admin';
   PASSWORD: string = 'password';
@@ -18,13 +26,8 @@ export class AuthService {
     return this.users;
   }
 
-  login(userName: string, password: string) {
-    if (userName === this.USER_NAME && password === this.PASSWORD) {
-      console.log('AuthService: Login successful!');
-      return  true;
-    } else {
-      console.log('AuthService: Login failed!');
-      return false;
-    }
+  login(userName: string, password: string) : Observable<any> {
+    return this.http.post(this.usersEndpoint, {user_name : userName, user_password : password}, this.httpOptions)
+      .pipe(map(res => <any[]>res));
   }
 }

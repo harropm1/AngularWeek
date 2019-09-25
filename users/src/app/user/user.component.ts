@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { user } from './../models/user.model';
-import { AuthService } from './../providers/auth.service';
+import { UserService } from './../providers/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,38 +12,32 @@ export class UserComponent implements OnInit {
   title: string = 'Add a User';
 
   // Array to hold user Objects
-  users: user[] = [];
+  users: user[] = []; 
   
-  constructor(private authService: AuthService,
+  private sub: any;
+  private userName: string = '';
+
+  constructor(private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) {}
 
-  ngOnInit() {}
-
-  //propName: type = defaultValue
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
-
-  newUserAdded: boolean = false;
-
-  onAddUser(): void {
-    this.users = this.authService.addUser(this.firstName, this.lastName, this.email);
-    this.newUserAdded = true;
-  }
-
-  onReset(): void {
-    this.firstName = '';
-    this.lastName = '';
-    this.email = '';
-    this.newUserAdded = true;
-  }
-  getColor(): string {
-    return this.newUserAdded === true ? '#000080' : '#FF0000'; // navy : red
-  }
+    ngOnInit() {
+      // get username from Query Params
+      // Subscribe to Observable
+      // pass anonymoue callback function to subscribe method
+      this.sub = this.route
+                .queryParams
+                .subscribe(params => {
+                  this.userName = params['username'];
+                });
+                
+      // call getusers() method in userService
+      this.userService.getUsers().subscribe((data)  => {
+        this.users = data.users;
+      });
+    }
 
   onLogout() {
     this.router.navigate(['/']);
   }
-
 }

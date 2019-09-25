@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,9 +9,10 @@ import { AuthService } from './../providers/auth.service';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    userName: string = '';
-    password: string = '';
-    loginError: boolean = false;
+    private userName: string = '';
+    private password: string = '';
+    private errMsg: string = '';
+    private loginError: boolean = false;
 
     // create instance of AuthService
     constructor(
@@ -22,14 +22,28 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
     }
 
+    navigateHome(): void {
+		this.router.navigate(['/']);
+	}
+
     onLogin(): void {
-        // call login() method in AuthService to validate login creds
-        if (this.authService.login(this.userName, this.password)) {
-            this.loginError = false;
-            // load users "page"
-            this.router.navigate(['users'], { queryParams: { username: this.userName } });
+        this.loginError = false;
+        if (this.userName === '' || this.password === '') {
+          this.errMsg = 'User Name and Password are required.';
+          this.loginError = true;
         } else {
-            this.loginError = true;
+          // call login() method in AuthService to validate login creds
+          this.authService.login(this.userName, this.password).subscribe(data => {
+            console.log(data);
+            if (data.success == false) {
+              this.errMsg = 'Login unsuccessful.';
+              this.loginError = true;
+            } else {
+              this.loginError = false;
+              // load mountains "page"
+              this.router.navigate(['users'], {queryParams: {userame: this.userName}});
+            }
+          });
         }
-    }
+      }
 }
