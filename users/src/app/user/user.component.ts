@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { user } from './user.model';
+import { user } from './../models/user.model';
 import { AuthService } from './../providers/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -13,7 +14,9 @@ export class UserComponent implements OnInit {
   // Array to hold user Objects
   users: user[] = [];
   
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {}
 
@@ -37,6 +40,10 @@ export class UserComponent implements OnInit {
   }
   getColor(): string {
     return this.newUserAdded === true ? '#000080' : '#FF0000'; // navy : red
+  }
+
+  onLogout() {
+    this.router.navigate(['/']);
   }
 
 }
